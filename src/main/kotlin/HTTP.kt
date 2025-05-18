@@ -10,15 +10,9 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlin.time.Duration.Companion.seconds
-import org.koin.dsl.module
-import org.koin.ktor.plugin.Koin
-import org.koin.logger.slf4jLogger
 
 fun Application.configureHTTP() {
-    routing {
-        swaggerUI(path = "openapi")
-    }
+    routing { swaggerUI(path = "openapi") }
     install(DefaultHeaders) {
         header("X-Engine", "Ktor") // will send this header with each response
     }

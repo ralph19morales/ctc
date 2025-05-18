@@ -10,20 +10,8 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlin.time.Duration.Companion.seconds
-import org.koin.dsl.module
-import org.koin.ktor.plugin.Koin
-import org.koin.logger.slf4jLogger
 
 fun Application.configureSerialization() {
-    install(ContentNegotiation) {
-        jackson {
-                enable(SerializationFeature.INDENT_OUTPUT)
-            }
-    }
-    routing {
-        get("/json/jackson") {
-                call.respond(mapOf("hello" to "world"))
-            }
-    }
+    install(ContentNegotiation) { jackson { enable(SerializationFeature.INDENT_OUTPUT) } }
+    routing { get("/json/jackson") { call.respond(mapOf("hello" to "world")) } }
 }

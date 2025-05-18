@@ -11,13 +11,10 @@ import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlin.time.Duration.Companion.seconds
-import org.koin.dsl.module
-import org.koin.ktor.plugin.Koin
-import org.koin.logger.slf4jLogger
 
 fun Application.configureAdministration() {
     routing {
-        route("/"){
+        route("/") {
             install(RateLimiting) {
                 rateLimiter {
                     type = TokenBucket::class
