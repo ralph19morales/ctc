@@ -1,5 +1,6 @@
 package infra.configurations
 
+import com.ralphmorales.logger
 import io.ktor.server.config.*
 import jakarta.persistence.*
 
@@ -13,20 +14,24 @@ object DatabaseFactory {
         private val config = ApplicationConfig("application.yaml")
 
         private val entityManagerFactory: EntityManagerFactory by lazy {
+                Class.forName("org.postgresql.Driver")
+
+                val dbUrl =
+                        System.getenv("DATABASE_URL")
+                                ?: config.property("ktor.database.url").getString()
+
+                logger.info("Database URL: $dbUrl")
+
                 Persistence.createEntityManagerFactory(
                         "ctc-persistence-unit",
                         mapOf(
-                                "jakarta.persistence.jdbc.url" to
-                                        config.property("ktor.database.url").getString(),
+                                "jakarta.persistence.jdbc.url" to dbUrl,
                                 "jakarta.persistence.jdbc.driver" to
                                         config.property("ktor.database.driver").getString(),
                                 "jakarta.persistence.jdbc.user" to
                                         config.property("ktor.database.user").getString(),
                                 "jakarta.persistence.jdbc.password" to
                                         config.property("ktor.database.password").getString(),
-                                "hibernate.dialect" to
-                                        config.property("ktor.database.hibernate.dialect")
-                                                .getString(),
                                 "hibernate.hbm2ddl.auto" to
                                         config.property("ktor.database.hibernate.hbm2ddl")
                                                 .getString(),

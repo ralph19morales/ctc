@@ -5,9 +5,7 @@ ktor:
   deployment:
     port: 8080
   database:
-    host: "db:5432"
-    name: "ctc"
-    url: "jdbc:postgresql://${host}/${name}?serverTimezone=UTC&useLegacyDatetimeCode=false&useSSL=false&createDatabaseIfNotExist=true"
+    url: "jdbc:postgresql://localhost:5432/ctc?serverTimezone=UTC&useLegacyDatetimeCode=false&useSSL=false&createDatabaseIfNotExist=true"
     driver: "org.postgresql.Driver"
     user: "postgres"
     password: "password"

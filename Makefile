@@ -2,21 +2,21 @@
 
 APP_NAME=ctc
 DOCKER_COMPOSE=docker-compose
-COMPOSE_FILE=docker-compose.yaml
+COMPOSE_FILE=compose.yaml
 
 .PHONY: build up down logs restart clean
 
 # Build the Ktor app Docker image
 build:
-	docker build -t $(APP_NAME):0.0.1 .
+	gradlew.bat clean buildFatJar
 
 # Start the app using docker-compose
 up: build
-	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up -d
+	docker compose  up
 
 # Stop the app
 down:
-	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down
+	docker compose down
 
 # Show logs
 logs:
@@ -27,4 +27,7 @@ restart: down up
 
 # Remove all containers, networks, and images created by up
 clean: down
-	- docker image rm $(APP_NAME):latest
+	- docker remove --force $(shell docker ps -aq)
+	- docker rmi --force $(shell docker images -q)
+	- docker volume prune -f
+	- docker network prune -f

@@ -20,5 +20,5 @@ RUN gradle buildFatJar --no-daemon
 FROM amazoncorretto:22 AS runtime
 EXPOSE 8080
 RUN mkdir /app
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/ctc-0.0.1.jar
-ENTRYPOINT ["java","-jar","/app/ctc-0.0.1.jar"]
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/ctc.jar
+ENTRYPOINT ["java","-jar","/app/ctc.jar"]
