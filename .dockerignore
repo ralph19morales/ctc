@@ -2,7 +2,7 @@
 /build
 /.gradle
 .gradle/
-/temp
+/tmp
 
 # Ignore IntelliJ IDEA project files
 .idea/
