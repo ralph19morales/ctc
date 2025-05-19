@@ -1,7 +1,7 @@
 package domain.spis
 
-import domain.transaction.models.FeeType
-import domain.transaction.models.TransactionType
+import domain.models.FeeType
+import domain.models.TransactionType
 
 interface FeeProvider {
 

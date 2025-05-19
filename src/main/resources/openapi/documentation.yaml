@@ -1,23 +1,142 @@
-openapi: "3.0.3"
+openapi: 3.0.3
 info:
-  title: "Application API"
-  description: "Application API"
-  version: "1.0.0"
-servers:
-  - url: "http://localhost:8080"
+  title: Transaction API
+  version: 1.0.0
 paths:
-  /:
-    get:
-      description: "Hello World!"
+  /transaction/create:
+    post:
+      summary: Create a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTransactionRequest"
       responses:
         "200":
-          description: "OK"
+          description: Transaction created
           content:
-            text/plain:
+            application/json:
               schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Hello World!"
+                type: object
+        "400":
+          description: Bad request
+
+  /transaction/{transactionId}/charge:
+    post:
+      summary: Charge a transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Transaction charged
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Missing or malformed transactionId
+
+  /transaction/{transactionId}/charge-fees:
+    post:
+      summary: Charge transaction fees
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Fees charged
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Missing or malformed transactionId
+
+  /transaction/{transactionId}:
+    get:
+      summary: Get a transaction by ID
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Missing or malformed transactionId
+
+  /transaction/{transactionId}/applicable-fees:
+    get:
+      summary: Get applicable fees for a transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Applicable fees
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Missing or malformed transactionId
+
 components:
-  schemas: {}
+  schemas:
+    CreateTransactionRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        asset:
+          $ref: "#/components/schemas/Asset"
+        assetType:
+          $ref: "#/components/schemas/AssetType"
+        type:
+          $ref: "#/components/schemas/TransactionType"
+      required:
+        - amount
+        - asset
+        - assetType
+        - type
+    Asset:
+      type: string
+      enum:
+        - AED
+        - USD
+        - EUR
+        - PHP
+        - BTC
+        - ETH
+    AssetType:
+      type: string
+      enum:
+        - FIAT
+        - CRYPTO
+    TransactionType:
+      type: string
+      enum:
+        - MOBILE_TOPUP
+        - DEPOSIT
+        - WITHDRAWAL
+        - TRANSFER
+        - PAYMENT
+        - REFUND

@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.9.23"
 }
 
 group = "com.ralphmorales"
@@ -28,6 +29,14 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
+    implementation("org.hibernate:hibernate-core:6.0.0.Final")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("org.postgresql:postgresql:42.3.1")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.0")
+    testImplementation("io.ktor:ktor-server-test-host:2.0.0")
+
+
 }

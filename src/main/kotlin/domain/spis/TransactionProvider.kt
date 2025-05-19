@@ -1,10 +1,10 @@
 package domain.spis
 
-import domain.transaction.models.Asset
-import domain.transaction.models.AssetType
-import domain.transaction.models.Transaction
-import domain.transaction.models.TransactionState
-import domain.transaction.models.TransactionType
+import domain.models.Asset
+import domain.models.AssetType
+import domain.models.Transaction
+import domain.models.TransactionState
+import domain.models.TransactionType
 import java.math.BigDecimal
 
 interface TransactionProvider {
@@ -16,7 +16,7 @@ interface TransactionProvider {
             asset: Asset,
             assetType: AssetType,
             type: TransactionType,
-            state: TransactionState
+            state: TransactionState,
     ): Transaction
 
     // Get transaction by ID. This method should return the transaction with the specified ID.

@@ -1,6 +1,17 @@
 ktor:
-    application:
-        modules:
-            - com.ralphmorales.ApplicationKt.module
-    deployment:
-        port: 8080
+  application:
+    modules:
+      - com.ralphmorales.ApplicationKt.module
+  deployment:
+    port: 8080
+  database:
+    host: "db:5432"
+    name: "ctc"
+    url: "jdbc:postgresql://${host}/${name}?serverTimezone=UTC&useLegacyDatetimeCode=false&useSSL=false&createDatabaseIfNotExist=true"
+    driver: "org.postgresql.Driver"
+    user: "postgres"
+    password: "password"
+    hibernate:
+      dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      hbm2ddl: "create-drop"
+      show_sql: "true"
