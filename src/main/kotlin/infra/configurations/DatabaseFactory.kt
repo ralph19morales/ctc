@@ -16,9 +16,8 @@ object DatabaseFactory {
         private val entityManagerFactory: EntityManagerFactory by lazy {
                 Class.forName("org.postgresql.Driver")
 
-                val dbUrl =
-                        System.getenv("DATABASE_URL")
-                                ?: config.property("ktor.database.url").getString()
+                var dbUrl = System.getenv("DATABASE_URL") ?: System.getProperty("DATABASE_URL")
+                dbUrl = dbUrl ?: config.property("ktor.database.url").getString()
 
                 logger.info("Database URL: $dbUrl")
 

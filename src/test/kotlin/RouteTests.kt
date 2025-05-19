@@ -6,6 +6,7 @@ import domain.models.TransactionType
 import infra.configurations.domainModules
 import infra.persistence.utils.seedFeeTypes
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.extensions.testcontainers.TestContainerExtension
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -15,11 +16,26 @@ import java.math.BigDecimal
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
+import org.testcontainers.containers.PostgreSQLContainer
+
+@Suppress("unused")
+class KPostgresContainer : PostgreSQLContainer<KPostgresContainer>("postgres:15")
+
+lateinit var postgres: KPostgresContainer
 
 class RoutingTest :
         BehaviorSpec({
-            // Initialize Koin for tests
+            // Start Postgres container before all tests and stop after all tests
+            postgres =
+                    KPostgresContainer().apply {
+                        withDatabaseName("ctc")
+                        withUsername("postgres")
+                        withPassword("password")
+                        start()
+                    }
+
             beforeSpec {
+                System.setProperty("DATABASE_URL", postgres.jdbcUrl)
                 startKoin { modules(domainModules) }
                 // Seed test data
                 val txCreate = org.koin.java.KoinJavaComponent.getKoin().get<CreateTransaction>()
@@ -31,6 +47,8 @@ class RoutingTest :
                 )
                 seedFeeTypes()
             }
+
+            afterSpec { postgres.stop() }
             given("The /transaction/create route") {
                 `when`("a valid CreateTransactionRequest is posted") {
                     then("it should return a successful response") {
@@ -182,4 +200,6 @@ class RoutingTest :
                     }
                 }
             }
-        })
+        }) {
+    override fun extensions() = listOf(TestContainerExtension(postgres))
+}
