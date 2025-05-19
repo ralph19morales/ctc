@@ -78,7 +78,7 @@ class JPATransactionProvider : TransactionProvider {
                 tx.state = transaction.state
 
                 // Update fees
-                if (tx.fees.isNotEmpty()) {
+                if (transaction.fees.isNotEmpty()) {
                         val fees =
                                 transaction.fees.map {
                                         val feeType =
@@ -97,7 +97,6 @@ class JPATransactionProvider : TransactionProvider {
                                                 transaction = tx
                                         )
                                 }
-                        entityManager.persist(fees)
                         tx.fees = fees
                 }
 
