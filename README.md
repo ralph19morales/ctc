@@ -1,45 +1,68 @@
-# ctc
+# Transaction Service
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+---
 
-Here are some useful links to get you started:
+## Service Overview
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+The Transaction Service is responsible for handling the complete lifecycle of transactions and their associated domain entities:
 
-## Features
+- **Transactions**: Creation, management, and tracking of transaction records.
+- **Fees**: Calculation and association of fees with transactions.
+- **Fee Types**: Definition and management of various fee categories.
 
-Here's a list of features included in this project:
+## Getting Started
 
-| Name                                                               | Description                                                                        |
-| --------------------------------------------------------------------|------------------------------------------------------------------------------------ |
-| [Rate Limiting](https://start.ktor.io/p/ktor-server-rate-limiting) | Manage request rate limiting as you see fit                                        |
-| [Koin](https://start.ktor.io/p/koin)                               | Provides dependency injection                                                      |
-| [Content Negotiation](https://start.ktor.io/p/content-negotiation) | Provides automatic content conversion according to Content-Type and Accept headers |
-| [Routing](https://start.ktor.io/p/routing)                         | Provides a structured routing DSL                                                  |
-| [Jackson](https://start.ktor.io/p/ktor-jackson)                    | Handles JSON serialization using Jackson library                                   |
-| [Swagger](https://start.ktor.io/p/swagger)                         | Serves Swagger UI for your project                                                 |
-| [Default Headers](https://start.ktor.io/p/default-headers)         | Adds a default set of headers to HTTP responses                                    |
+### Running the Application Locally
 
-## Building & Running
+1. **Clone the Repository**  
+   Download the project from GitHub and extract the ZIP file.
 
-To build or run the project, use one of the following tasks:
+2. **Navigate to the Project Directory**  
+   Change to the `ctc` directory:
 
-| Task                          | Description                                                          |
-| -------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`              | Run the tests                                                        |
-| `./gradlew build`             | Build everything                                                     |
-| `buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `run`                         | Run the server                                                       |
-| `runDocker`                   | Run using the local docker image                                     |
+   ```sh
+   cd ctc
+   ```
 
-If the server starts successfully, you'll see the following output:
+3. **Start the Service**  
+   Use `make up` to launch the application:
 
-```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
-```
+   ```sh
+   make up
+   ```
 
+   ![Docker running](screenshots/docker.png)
+
+4. **Access the API Documentation**  
+   Open [http://localhost:8080/openapi](http://localhost:8080/openapi) in your browser to view and test the APIs using Swagger.
+   ![Swagger UI](screenshots/swagger.png)
+
+## Specifications
+
+### Technology Stack
+
+- **Language**: Kotlin
+- **Framework**: Ktor
+- **Dependency Injection**: Koin
+- **Persistence**: JPA (Hibernate)
+- **Database**: PostgreSQL
+- **API Documentation**: OpenAPI (Swagger UI)
+- **Build Tool**: Gradle
+- **Containerization**: Docker, Docker Compose
+- **Logging**: Logback
+- **Configuration**: YAML
+
+## Architecture
+
+The project follows hexagonal architecture. The domain contains the business logic which is completely isolated from the infrastructure. The controller accesses the domain through the application programming interfaces (APIs) while the resources needed by the domain is being injected by the providers by implementing the service provider interfaces (SPIs).
+
+![](screenshots/hexagonal-screenshot.png)
+
+## Moving forward
+
+- More unit and integration tests
+- Exception and error handling
+- Identity management (authentication and authorization)
+- Its good practice to have metrics, tracing and logging for observability
+- Instead of docker, databases are advised to be hosted in a fully managed database-as-a-service solutions like AWS RDS
+- Error monitoring like sentry would help in issue discovery and resolution
