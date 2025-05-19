@@ -37,6 +37,12 @@ The Transaction Service is responsible for handling the complete lifecycle of tr
    Open [http://localhost:8080/openapi](http://localhost:8080/openapi) in your browser to view and test the APIs using Swagger.
    ![Swagger UI](screenshots/swagger.png)
 
+5. Use `./gradlew test` to run test
+   ```sh
+   ./gradlew test
+   ```
+   ![Example result](screenshots/kotest.png)
+
 ## Specifications
 
 ### Technology Stack
@@ -49,6 +55,7 @@ The Transaction Service is responsible for handling the complete lifecycle of tr
 - **API Documentation**: OpenAPI (Swagger UI)
 - **Build Tool**: Gradle
 - **Containerization**: Docker, Docker Compose
+- **Testing**: JUnit, Kotest
 - **Logging**: Logback
 - **Configuration**: YAML
 

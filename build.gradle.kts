@@ -35,7 +35,14 @@ dependencies {
     implementation("org.postgresql:postgresql:42.3.1")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
-    testImplementation("io.kotest:kotest-runner-junit5:5.0.0")
-    testImplementation("io.kotest:kotest-assertions-core:5.0.0")
-    testImplementation("io.ktor:ktor-server-test-host:2.0.0")
+    testImplementation("io.kotest:kotest-runner-junit5:6.0.0.M4")
+    testImplementation("io.kotest:kotest-assertions-core:6.0.0.M4")
+    testImplementation("io.ktor:ktor-server-test-host:3.1.3")
+    testImplementation("io.insert-koin:koin-test:3.5.0")
+    testImplementation("io.insert-koin:koin-test-junit5:3.5.0")
+
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

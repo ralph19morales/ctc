@@ -25,6 +25,13 @@ fun Application.configureErrorHandling() {
                     ErrorResponse("bad request", cause.localizedMessage)
             )
         }
+        exception<NumberFormatException> { call, cause ->
+            logger.error(cause.stackTraceToString())
+            call.respond(
+                    HttpStatusCode.BadRequest,
+                    ErrorResponse("bad request", cause.localizedMessage)
+            )
+        }
         exception<Throwable> { call, cause ->
             logger.error(cause.stackTraceToString())
             call.respond(
