@@ -19,8 +19,8 @@ paths:
             application/json:
               schema:
                 type: object
-        "400":
-          description: Bad request
+        "500":
+          description: Internal server error
 
   /transaction/{transactionId}/charge:
     post:
@@ -38,8 +38,12 @@ paths:
             application/json:
               schema:
                 type: object
+        "404":
+          description: Not found
         "400":
           description: Missing or malformed transactionId
+        "500":
+          description: Internal server error
 
   /transaction/{transactionId}/charge-fees:
     post:
@@ -57,8 +61,12 @@ paths:
             application/json:
               schema:
                 type: object
+        "404":
+          description: Not found
         "400":
           description: Missing or malformed transactionId
+        "500":
+          description: Internal server error
 
   /transaction/{transactionId}:
     get:
@@ -76,8 +84,12 @@ paths:
             application/json:
               schema:
                 type: object
+        "404":
+          description: Not found
         "400":
           description: Missing or malformed transactionId
+        "500":
+          description: Internal server error
 
   /transaction/{transactionId}/applicable-fees:
     get:
@@ -95,8 +107,12 @@ paths:
             application/json:
               schema:
                 type: object
+        "404":
+          description: Not found
         "400":
           description: Missing or malformed transactionId
+        "500":
+          description: Internal server error
 
 components:
   schemas:

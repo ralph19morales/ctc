@@ -1,19 +1,23 @@
 package domain.models
 
+import domain.utils.BigDecimalSerializer
+import domain.utils.LocalDateSerializer
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
 // Data class to represent a fee type
 // This class contains information about different types of fees that can be applied to transactions
+@Serializable
 data class FeeType(
         val id: Long,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        @Serializable(with = LocalDateSerializer::class) val createdAt: LocalDateTime? = null,
+        @Serializable(with = LocalDateSerializer::class) val updatedAt: LocalDateTime? = null,
         val name: String,
         val description: String?,
         val transactionType: TransactionType,
         val category: FeeCategory,
-        val rate: BigDecimal,
+        @Serializable(with = BigDecimalSerializer::class) val rate: BigDecimal,
         val isActive: Boolean // fee is not applied if false
 )
 
@@ -24,5 +28,5 @@ enum class FeeCategory {
     LATE_PAYMENT,
     CANCELLATION,
     REFUND,
-    OTHER
+    MISCELLANEOUS,
 }

@@ -6,6 +6,7 @@ import domain.models.Transaction
 import domain.models.TransactionState
 import domain.spis.PaymentProvider
 import domain.spis.TransactionProvider
+import domain.utils.logger
 
 class ChargeTransactionFeeService(
         val transactionProvider: TransactionProvider,
@@ -21,16 +22,24 @@ class ChargeTransactionFeeService(
         transaction.fees = fees
         transactionProvider.updateTransaction(transaction)
 
+        val amountToPay = transaction.totalAmount.subtract(transaction.paidAmount)
+
         val isSuccess =
                 paymentProvider.processPayment(
                         transactionId,
-                        transaction.totalAmount,
+                        amountToPay,
                         transaction.asset,
                         transaction.assetType
                 )
         if (!isSuccess) {
             transaction.state = TransactionState.FAILED
         }
+
+        transaction.paidAmount = transaction.paidAmount.add(amountToPay)
+
+        logger.info(
+                "Transaction ${transaction.id} amount: ${transaction.amount}, total amount: ${transaction.totalAmount}, paid amount: ${transaction.paidAmount}"
+        )
 
         transaction.state = TransactionState.SETTLED
         return transactionProvider.updateTransaction(transaction)

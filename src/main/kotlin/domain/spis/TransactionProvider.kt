@@ -12,6 +12,7 @@ interface TransactionProvider {
     // Transaction creation
     fun createTransaction(
             amount: BigDecimal,
+            paidAmount: BigDecimal,
             totalAmount: BigDecimal,
             asset: Asset,
             assetType: AssetType,

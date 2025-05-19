@@ -1,19 +1,20 @@
 package domain.models
 
+import domain.utils.BigDecimalSerializer
+import domain.utils.LocalDateSerializer
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
 // Data class to represent a fee associated with a transaction
+@Serializable
 data class Fee(
         val id: Long? = null,
-        val createdAt: LocalDateTime? = null,
-        val updatedAt: LocalDateTime? = null,
+        @Serializable(with = LocalDateSerializer::class) val createdAt: LocalDateTime? = null,
+        @Serializable(with = LocalDateSerializer::class) val updatedAt: LocalDateTime? = null,
         val transactionId: Long,
         val asset: Asset,
         val type: FeeType,
-        val amount: BigDecimal,
-        val rate: BigDecimal,
-        val name: String,
-        val description: String,
-        val category: FeeCategory,
+        @Serializable(with = BigDecimalSerializer::class) val amount: BigDecimal,
+        @Serializable(with = BigDecimalSerializer::class) val rate: BigDecimal,
 )

@@ -1,17 +1,17 @@
 package com.ralphmorales
 
-import com.fasterxml.jackson.databind.*
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.*
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.implementations.*
-import io.ktor.serialization.jackson.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.defaultheaders.*
-import io.ktor.server.plugins.swagger.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
 fun Application.configureSerialization() {
-    install(ContentNegotiation) { jackson { enable(SerializationFeature.INDENT_OUTPUT) } }
-    routing { get("/json/jackson") { call.respond(mapOf("hello" to "world")) } }
+    install(ContentNegotiation) {
+        json(
+                kotlinx.serialization.json.Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                }
+        )
+    }
 }

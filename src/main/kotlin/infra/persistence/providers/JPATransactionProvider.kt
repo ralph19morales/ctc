@@ -16,6 +16,7 @@ class JPATransactionProvider : TransactionProvider {
 
         override fun createTransaction(
                 amount: BigDecimal,
+                paidAmount: BigDecimal,
                 totalAmount: BigDecimal,
                 asset: Asset,
                 assetType: AssetType,
@@ -27,6 +28,7 @@ class JPATransactionProvider : TransactionProvider {
                 val tx =
                         Transaction(
                                 amount = amount,
+                                paidAmount = paidAmount,
                                 totalAmount = totalAmount,
                                 asset = asset,
                                 assetType = assetType,
@@ -68,6 +70,7 @@ class JPATransactionProvider : TransactionProvider {
                                 .singleResult
 
                 tx.amount = transaction.amount
+                tx.paidAmount = transaction.paidAmount
                 tx.totalAmount = transaction.totalAmount
                 tx.asset = transaction.asset
                 tx.assetType = transaction.assetType
@@ -89,14 +92,12 @@ class JPATransactionProvider : TransactionProvider {
                                         Fee(
                                                 amount = it.amount,
                                                 rate = it.rate,
-                                                name = it.name,
-                                                description = it.description,
-                                                category = it.category,
                                                 asset = it.asset,
                                                 type = feeType,
                                                 transaction = tx
                                         )
                                 }
+                        entityManager.persist(fees)
                         tx.fees = fees
                 }
 

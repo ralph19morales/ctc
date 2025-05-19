@@ -1,13 +1,10 @@
 package com.ralphmorales
 
-import com.fasterxml.jackson.databind.*
 import domain.apis.*
 import domain.models.Asset
 import domain.models.AssetType
 import domain.models.TransactionType
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.*
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.implementations.*
-import io.ktor.serialization.jackson.*
+import domain.utils.BigDecimalSerializer
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.defaultheaders.*
@@ -16,6 +13,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.math.BigDecimal
+import kotlinx.serialization.Serializable
 import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
@@ -79,8 +77,9 @@ fun Application.configureRouting() {
         }
 }
 
-data class CreateTransactionRequest(
-        val amount: BigDecimal,
+@Serializable
+class CreateTransactionRequest(
+        @Serializable(with = BigDecimalSerializer::class) val amount: BigDecimal,
         val asset: Asset,
         val assetType: AssetType,
         val type: TransactionType

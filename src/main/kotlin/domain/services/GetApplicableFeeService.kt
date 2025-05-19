@@ -16,11 +16,8 @@ class GetApplicableFeeService(
         val feeTypes = feeProvider.getApplicableFeeTypes(transaction.type)
         return feeTypes.map { feeType ->
             Fee(
-                    name = feeType.name,
-                    category = feeType.category,
                     createdAt = transaction.createdAt,
                     updatedAt = transaction.updatedAt,
-                    description = feeType.description ?: "",
                     transactionId = transaction.id,
                     type = feeType,
                     asset = transaction.asset,
