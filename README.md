@@ -73,3 +73,52 @@ The project follows hexagonal architecture. The domain contains the business log
 - Its good practice to have metrics, tracing and logging for observability
 - Instead of docker, databases are advised to be hosted in a fully managed database-as-a-service solutions like AWS RDS
 - Error monitoring like sentry would help in issue discovery and resolution
+
+## Restate Implementation 🚀
+
+An alternative implementation using [Restate](https://restate.dev/) is available in the `restate-implementation` git branch.
+
+### Steps to Run the Restate Implementation
+
+1. **Clone the Repository**  
+   Download or clone the project from GitHub.
+
+2. **Navigate to the Project Directory**
+
+   ```sh
+   cd ctc
+   ```
+
+3. **Switch to the Restate Branch**
+
+   ```sh
+   git checkout restate-implementation
+   ```
+
+4. **Start the Application**  
+   Build and run the service:
+
+   ```sh
+   ./gradlew clean build run
+   ```
+
+5. **Start the Restate Server**  
+   Launch the Restate development server using Docker:
+
+   ```sh
+   docker run --name restate_dev --rm \
+     -p 8080:8080 -p 9070:9070 -p 9071:9071 \
+     --add-host=host.docker.internal:host-gateway \
+     docker.restate.dev/restatedev/restate:1.3
+   ```
+
+6. **Access the Restate UI**  
+   Open [http://localhost:9070/ui/overview](http://localhost:9070/ui/overview) in your browser.
+
+7. **Register Deployments**  
+   Once services are registered, you can use the UI to interact with and test the implementation.
+
+![](screenshots/restate_1.png)
+![](screenshots/restate_2.png)
+![](screenshots/restate_3.png)
+![](screenshots/restate_4.png)
