@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.plugin.serialization)
     kotlin("plugin.jpa") version "1.9.23"
+    id("com.google.devtools.ksp") version "2.1.10-1.0.31"
 }
 
 group = "com.ralphmorales"
@@ -17,7 +18,6 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.ktor.server.rate.limiting)
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
     implementation(libs.ktor.server.content.negotiation)
@@ -30,6 +30,7 @@ dependencies {
     implementation(libs.ktor.server.status.pages)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
+    ksp("dev.restate:sdk-api-kotlin-gen:2.1.0")
     implementation("org.hibernate:hibernate-core:6.6.0.Final")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation("org.postgresql:postgresql:42.3.1")

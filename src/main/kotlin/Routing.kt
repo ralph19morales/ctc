@@ -1,11 +1,10 @@
 package com.ralphmorales
 
 import domain.apis.*
-import domain.models.Asset
-import domain.models.AssetType
-import domain.models.TransactionType
-import domain.utils.BigDecimalSerializer
+import domain.models.*
+import domain.utils.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.swagger.*
@@ -23,7 +22,14 @@ fun Application.configureRouting() {
         val getTransaction: GetTransaction by inject()
         val getApplicableFee: GetApplicableFee by inject()
 
+        install(DefaultHeaders) {
+                header("X-Engine", "Ktor") // will send this header with each response
+        }
+        install(CallLogging)
+
+        // expose the API using Ktor embedded server
         routing {
+                swaggerUI(path = "openapi")
                 post("/transaction/create") {
                         val request = call.receive<CreateTransactionRequest>()
                         call.respond(
@@ -78,7 +84,7 @@ fun Application.configureRouting() {
 }
 
 @Serializable
-class CreateTransactionRequest(
+data class CreateTransactionRequest(
         @Serializable(with = BigDecimalSerializer::class) val amount: BigDecimal,
         val asset: Asset,
         val assetType: AssetType,

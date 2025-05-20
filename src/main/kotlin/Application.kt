@@ -9,11 +9,11 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    configureAdministration()
+
     configureFrameworks()
     configureSerialization()
-    configureHTTP()
-    configureRouting()
+    // configureRouting()
+    configureRestateRouting()
     configureErrorHandling()
 
     monitor.subscribe(ApplicationStarted) { seedFeeTypes() }
